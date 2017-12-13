@@ -23,11 +23,15 @@ def main():
                 (df['统计月份'] == 201709)]
 
     # print(app_lg[app_lg['性别'] == '女'].nlargest(20, columns='uv').tail(19).to_string(col_space=10, justify='center'))
-    app_lg[app_lg['性别'] == '女'].nlargest(20, columns='uv').to_json(
-        '../result/09-w-2-app-t20.json', force_ascii=False, orient="values")
-    app_lg[app_lg['性别'] == '男'].nlargest(20, columns='uv').to_json(
-        '../result/09-m-2-app-t20.json', force_ascii=False, orient="values")
+    # app_lg[app_lg['性别'] == '女'].nlargest(20, columns='uv').to_json(
+    #     '../result/09-w-2-app-t20.json', force_ascii=False, orient="values")
+    # app_lg[app_lg['性别'] == '男'].nlargest(20, columns='uv').to_json(
+    #     '../result/09-m-2-app-t20.json', force_ascii=False, orient="values")
     # print(app_lg[app_lg['性别'] == '男'].nlargest(20, columns='uv').tail(19).to_string(col_space=10, justify='center'))
+    writer = pd.ExcelWriter('../result/output.xlsx')
+    app_lg[app_lg['性别'] == '女'].nlargest(20, columns='uv').to_excel(writer, '09-w-2-app-t20')
+    app_lg[app_lg['性别'] == '男'].nlargest(20, columns='uv').to_excel(writer, '09-m-2-app-t20')
+    writer.save()
 
 
 if __name__ == '__main__':
