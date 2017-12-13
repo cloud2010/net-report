@@ -1,7 +1,11 @@
+import './style/style.css';
 const greeter = require('./greeter.js');
 document.querySelector("#chart").appendChild(greeter());
+
 var h1_test = document.createElement('h1');
 h1_test.textContent = 'hello webpack world';
+h1_test.classList.add('test');
+
 document.querySelector("#chart").appendChild(h1_test);
 
 var echarts = require('echarts');

@@ -1,6 +1,8 @@
 // Greeter.js
+var dataset = require('../public/info.json');
 module.exports = function() {
     var greet = document.createElement('div');
-    greet.textContent = "Hi there and greetings!";
+    console.log(dataset.greetText);
+    greet.textContent = dataset.greetText;
     return greet;
   };
