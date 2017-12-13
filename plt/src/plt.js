@@ -1,6 +1,15 @@
 /**
  * 绘图代码
  */
+
+var dataset = require('../public/09-m-1-app-t20.json');
+// 构建数据
+var pltData = [];
+var pltValue = [];
+dataset.forEach(element => {
+    pltData.push(element[1]);
+    pltValue.push(element[6]);
+});
 var echarts = require('echarts');
 
 // 引入 ECharts 主模块
@@ -13,22 +22,22 @@ require('echarts/lib/component/title');
 
 // 基于准备好的dom，初始化echarts实例
 var divRender = document.querySelector("#main");
-divRender.setAttribute('style', 'width:800px; height:600px;');
+divRender.setAttribute('style', 'width:1200px; height:600px;');
 
 var myChart = echarts.init(divRender);
 // 绘制图表
 myChart.setOption({
     title: {
-        text: 'ECharts 入门示例'
+        text: '临港大学城9月份大一男生APP情况'
     },
     tooltip: {},
     xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        data: pltData
     },
     yAxis: {},
     series: [{
-        name: '销量',
+        name: 'UV值',
         type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
+        data: pltValue
     }]
 });
