@@ -1,0 +1,23 @@
+{
+  "name": "plt",
+  "version": "1.0.0",
+  "description": "Some net analysis charts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cloud2010/net-report.git"
+  },
+  "author": "Liu Min",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cloud2010/net-report/issues"
+  },
+  "homepage": "https://github.com/cloud2010/net-report#readme",
+  "dependencies": {
+    "echarts": "^3.8.5",
+    "webpack": "^3.10.0"
+  }
+}
