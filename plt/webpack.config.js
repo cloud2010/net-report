@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'inline-npsource-map',
   entry: {
     main: './src/main.js',
-    charts: './src/plt.js'
+    // charts: './src/plt.js'
   },
   output: {
     filename: '[name].bundle.js',
