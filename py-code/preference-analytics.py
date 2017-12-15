@@ -27,7 +27,7 @@ def main():
     with pd.ExcelWriter('../result/10月份APP分析.xlsx') as xls:
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城', '南汇大学城']:
             for age in range(1995, 1999):
-                app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201710)]
+                app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201710) & (df['app名称/类型'] != '腾讯类应用')]
                 for sex in ['男', '女']:
                     app_top=app[app['性别'] == sex].nlargest(20, columns='uv')
                     app_top['TOP']=top_list
@@ -40,7 +40,7 @@ def main():
     with pd.ExcelWriter('../result/9月份APP分析.xlsx') as xls:
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城', '南汇大学城']:
             for age in range(1995, 1999):
-                app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709)]
+                app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709) & (df['app名称/类型'] != '腾讯类应用')]
                 for sex in ['男', '女']:
                     app_top=app[app['性别'] == sex].nlargest(20, columns='uv')
                     app_top['TOP']=top_list
