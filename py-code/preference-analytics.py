@@ -29,8 +29,8 @@ def main():
             for age in range(1995, 1999):
                 app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201710) & (df['app名称/类型'] != '腾讯类应用')]
                 for sex in ['男', '女']:
-                    app_top=app[app['性别'] == sex].nlargest(20, columns='uv')
-                    app_top['TOP']=top_list
+                    app_top = app[app['性别'] == sex].nlargest(20, columns='uv')
+                    app_top['TOP'] = top_list
                     sum_stu = df_b[(df_b['性别'] == sex) & (df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数']
                     app_top['渗透率'] = app_top['uv'] / int(sum_stu)
                     app_top['月平均访问人次'] = app_top['pv'] / int(sum_stu)
@@ -42,8 +42,8 @@ def main():
             for age in range(1995, 1999):
                 app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709) & (df['app名称/类型'] != '腾讯类应用')]
                 for sex in ['男', '女']:
-                    app_top=app[app['性别'] == sex].nlargest(20, columns='uv')
-                    app_top['TOP']=top_list
+                    app_top = app[app['性别'] == sex].nlargest(20, columns='uv')
+                    app_top['TOP'] = top_list
                     sum_stu = df_b[(df_b['性别'] == sex) & (df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数']
                     app_top['渗透率'] = app_top['uv'] / int(sum_stu)
                     app_top['月平均访问人次'] = app_top['pv'] / int(sum_stu)
