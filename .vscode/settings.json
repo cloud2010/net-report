@@ -1,7 +1,4 @@
 {
     "code-runner.clearPreviousOutput": true,
-    "code-runner.runInTerminal": true,
-    "editor.fontFamily": "Monaco",
-    "editor.fontSize": 15,
-    "editor.lineHeight": 22
+    "code-runner.runInTerminal": true
 }
