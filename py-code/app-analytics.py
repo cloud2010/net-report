@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 Using pandas for data analysis
+APP 分类汇总分析
 """
 import os
 import time
-import re
-# import numpy as np
+import numpy as np
 import pandas as pd
 
 __author__ = 'Liu Min'
 
-APP_DATA = '校园兴趣数据（9月10月）.xlsx'
+APP_DATA = '校园app数据.xlsx'
 BASE_DATA = '校园基础数据.xls'
 
 
@@ -20,45 +20,46 @@ def main():
     # 人数数据
     df_b = pd.read_excel(os.path.join('../dataset', BASE_DATA))
 
-    # print(df.dtypes)
+    # top_list = ['TOP ' + str(i) for i in range(1, 21)]
 
-    top_list = ['TOP ' + str(i) for i in range(1, 21)]
-
-    pattern = re.compile(u'r|(?:公司)|(?:通信)|(?:统计)|(?:广告)|(?:软件)')
-    # 数据清洗排除爬虫兴趣标注
-    df = df[df['兴趣分类3'].str.contains(pattern) == 0]
     # 各大学城大一至大四10月份APP使用情况按pv指标统计
-    with pd.ExcelWriter('../result/10月份兴趣分析.xlsx') as xls:
-        for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城', '南汇大学城']:
+    # 按性别分析
+    with pd.ExcelWriter('../result/10月份APP按性别分类汇总统计.xlsx') as xls:
+        for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
+            for sex in ['男', '女']:
+                app = df[(df['校区'] == school) & (df['性别'] == sex) & (df['统计月份'] == 201710)]
+                g_df = app.groupby(['app名称/类型']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                sum_stu = df_b[(df_b['性别'] == sex) & (df_b['校区'] == school)]['人数'].sum()
+                g_df['渗透率'] = g_df['uv'] / int(sum_stu)
+                g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
+                g_df['学生数'] = int(sum_stu)
+                g_df.to_excel(xls, '{0}_10月_{1}_SEX_APP_T20'.format(school, sex), index=True)
+    
+    # 各大学城大一至大四10月份APP使用情况按pv指标统计
+    # 按年级分析
+    with pd.ExcelWriter('../result/10月份APP按年级分类汇总统计.xlsx') as xls:
+        for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
             for age in range(1995, 1999):
                 app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201710)]
-                # app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201710) & (df['兴趣分类3'].str.find(u'公司') == -1) & (df['兴趣分类3'].str.find(u'广告') == -1) & (df['兴趣分类3'].str.find(u'通信') == -1) & (df['兴趣分类3'].str.find(u'统计') == -1)]
-                for sex in ['男', '女']:
-                    app_top = app[app['性别'] == sex].nlargest(20, columns='pv')
-                    sum_stu = df_b[(df_b['性别'] == sex) & (df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数']
-                    # app_top['渗透率'] = app_top['uv'] / int(sum_stu)
-                    app_top['日平均访问次数'] = app_top['pv'] / int(sum_stu) / 30
-                    del app_top['uv']
-                    app_top['TOP'] = top_list
-                    app_top['学生数'] = int(sum_stu)
-                    # app_top['兴趣定位'] = app_top['兴趣分类1'] + '_' + app_top['兴趣分类2'] + '_' + app_top['兴趣分类3']
-                    app_top.to_excel(xls, '{0}_10月_{1}_{2}_P_T20'.format(school, sex, age), index=False)
+                g_df = app.groupby(['app名称/类型']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                sum_stu = df_b[(df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数'].sum()
+                g_df['渗透率'] = g_df['uv'] / int(sum_stu)
+                g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
+                g_df['学生数'] = int(sum_stu)
+                g_df.to_excel(xls, '{0}_10月_{1}_AGE_APP_T20'.format(school, age), index=True)
     
     # 各大学城大一至大四9月份APP使用情况按pv指标统计
-    with pd.ExcelWriter('../result/9月份兴趣分析.xlsx') as xls:
-        for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城', '南汇大学城']:
-            for age in range(1995, 1999):
-                app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709)]
-                # app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709) & (df['兴趣分类3'].str.find(u'公司') == -1) & (df['兴趣分类3'].str.find(u'广告') == -1) & (df['兴趣分类3'].str.find(u'通信') == -1) & (df['兴趣分类3'].str.find(u'统计') == -1)]
-                for sex in ['男', '女']:
-                    app_top = app[app['性别'] == sex].nlargest(20, columns='pv')
-                    sum_stu = df_b[(df_b['性别'] == sex) & (df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数']
-                    # app_top['渗透率'] = app_top['uv'] / int(sum_stu)
-                    app_top['日平均访问次数'] = app_top['uv'] / int(sum_stu) / 30
-                    del app_top['uv']
-                    # app_top['兴趣定位'] = app_top['兴趣分类1'] + '_' + app_top['兴趣分类2'] + '_' + app_top['兴趣分类3']
-                    # app_top.insert(0, 'TOP', top_list)
-                    app_top.to_excel(xls, '{0}_9月_{1}_{2}_P_T20'.format(school, sex, age), index=False)
+    # with pd.ExcelWriter('../result/9月份APP分析.xlsx') as xls:
+    #     for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城', '南汇大学城']:
+    #         for age in range(1995, 1999):
+    #             app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['统计月份'] == 201709) & (df['app名称/类型'] != '腾讯类应用')]
+    #             for sex in ['男', '女']:
+    #                 app_top = app[app['性别'] == sex].nlargest(20, columns='uv')
+    #                 app_top['TOP'] = top_list
+    #                 sum_stu = df_b[(df_b['性别'] == sex) & (df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数']
+    #                 app_top['渗透率'] = app_top['uv'] / int(sum_stu)
+    #                 app_top['月平均访问人次'] = app_top['pv'] / int(sum_stu)
+    #                 app_top.to_excel(xls, '{0}_9月_{1}_{2}_APP_T20'.format(school, sex, age), index=False)
 
 if __name__ == '__main__':
     start_time = time.time()
