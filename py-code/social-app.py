@@ -14,8 +14,24 @@ __author__ = 'Liu Min'
 APP_DATA = '校园app数据.xlsx'
 BASE_DATA = '校园基础数据.xls'
 
+def scale_pv(x):
+    '''
+    缩放PV值
+    '''
+    s_pv = x['pv']
+    if x['app名称/类型'] == '腾讯类应用':
+        s_pv = x['pv'] / 4
+    if x['app名称/类型'] == '微博':
+        s_pv = x['pv'] / 3.5
+    if x['app名称/类型'] == '百度贴吧':
+        s_pv = x['pv'] / 2
+
+    return s_pv
 
 def main():
+    '''
+    主函数
+    '''
     # APP数据
     df = pd.read_excel(os.path.join('../dataset', APP_DATA))
     # 人数数据
@@ -25,19 +41,21 @@ def main():
 
     pattern = re.compile(u'腾讯类应用|微信|^[Q]{2}$|微博|百度贴吧|知乎|陌陌|YY|空间')
     # 数据清洗排除爬虫兴趣标注
+    df['app名称/类型'].loc[df['app名称/类型'] == '腾讯类应用'] = '微信朋友圈'
     df = df[(df['app名称/类型'].str.contains(pattern) == 1) & (df['统计月份'] == 201710)]
     # 数值缩放
-    df[(df['app名称/类型'] == '腾讯类应用')]['pv'] / 4
-    df[(df['app名称/类型'] == '微博')]['pv'] / 4
+    df['scale_pv'] = df.apply(scale_pv, axis='columns')
+    # df['scale_pv'] = df.apply(lambda x: x['pv'] if x['app名称/类型'] != '腾讯类应用' and x['app名称/类型'] != '微博' else x['pv'] / 4, axis='columns')
+    
     # 按性别分析
     with pd.ExcelWriter('../result/社交APP按性别分类汇总统计.xlsx') as xls:
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
             for sex in ['男', '女']:
                 app = df[(df['校区'] == school) & (df['性别'] == sex)]
-                g_df = app.groupby(['app名称/类型']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                g_df = app.groupby(['app名称/类型']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum, 'scale_pv' : np.sum}).nlargest(20, columns='uv')
                 sum_stu = df_b[(df_b['性别'] == sex) & (df_b['校区'] == school)]['人数'].sum()
                 g_df['渗透率'] = g_df['uv'] / int(sum_stu)
-                g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
+                g_df['月均访问人次'] = g_df['scale_pv'] / int(sum_stu)
                 g_df['学生数'] = int(sum_stu)
                 g_df.to_excel(xls, '{0}_社交_{1}_SEX_APP_T20'.format(school, sex), index=True)
     
@@ -46,10 +64,10 @@ def main():
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
             for age in range(1995, 1999):
                 app = df[(df['校区'] == school) & (df['出生年份'] == age)]
-                g_df = app.groupby(['app名称/类型']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                g_df = app.groupby(['app名称/类型']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum, 'scale_pv' : np.sum}).nlargest(20, columns='uv')
                 sum_stu = df_b[(df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数'].sum()
                 g_df['渗透率'] = g_df['uv'] / int(sum_stu)
-                g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
+                g_df['月均访问人次'] = g_df['scale_pv'] / int(sum_stu)
                 g_df['学生数'] = int(sum_stu)
                 g_df.to_excel(xls, '{0}_社交_{1}_AGE_APP_T20'.format(school, age), index=True)
 
