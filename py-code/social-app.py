@@ -45,7 +45,6 @@ def main():
     df = df[(df['app名称/类型'].str.contains(pattern) == 1) & (df['统计月份'] == 201710)]
     # 数值缩放
     df['scale_pv'] = df.apply(scale_pv, axis='columns')
-    # df['scale_pv'] = df.apply(lambda x: x['pv'] if x['app名称/类型'] != '腾讯类应用' and x['app名称/类型'] != '微博' else x['pv'] / 4, axis='columns')
     
     # 按性别分析
     with pd.ExcelWriter('../result/社交APP按性别分类汇总统计.xlsx') as xls:
