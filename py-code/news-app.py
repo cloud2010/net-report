@@ -41,7 +41,9 @@ def main():
 
     pattern = re.compile(u'新闻|人民日报|今日头条|资讯|读书|阅读|掌阅')
     # 数据清洗排除爬虫兴趣标注
-    df['app名称/类型'].loc[df['app名称/类型'] == '天翼阅读'] = '微信读书'
+    replace_list = {u'天翼阅读': u'微信读书'}
+    # inplace 直接修改源
+    df['app名称/类型'].replace(replace_list, inplace=True)
     df = df[(df['app名称/类型'].str.contains(pattern) == 1) & (df['统计月份'] == 201710)]
     # 数值缩放
     # df['scale_pv'] = df.apply(scale_pv, axis='columns')

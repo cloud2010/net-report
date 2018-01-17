@@ -25,8 +25,9 @@ def main():
 
     pattern = re.compile(u'王者荣耀|游戏|消消乐|飞车|荒野|阴阳师|刀塔|炉石传说|英雄联盟|动漫')
     # 数据清洗排除爬虫兴趣标注
-    df['app名称/类型'].loc[df['app名称/类型'] == '掌上英雄联盟'] = '英雄联盟'
-    df['app名称/类型'].loc[df['app名称/类型'] == '海滨消消乐'] = '开心消消乐'
+    replace_list = {u'掌上英雄联盟': u'英雄联盟', u'海滨消消乐': u'开心消消乐'}
+    # inplace 直接修改源
+    df['app名称/类型'].replace(replace_list, inplace=True)
     df = df[(df['app名称/类型'].str.contains(pattern) == 1) & (df['统计月份'] == 201710)]
     # 数值缩放
     df['pv'] = df.apply(lambda x: x['pv'] if x['app名称/类型'] not in ['网易云音乐'] else x['pv'] / 2, axis='columns')

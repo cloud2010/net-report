@@ -24,15 +24,15 @@ def main():
 
     # top_list = ['TOP ' + str(i) for i in range(1, 7)]
 
-    pattern = re.compile(u'QQ|软件|手机|公司')
+    pattern = re.compile(u'QQ|软件|手机|公司|体育|b2b')
     # 数据清洗排除爬虫兴趣标注
     df = df[(df['兴趣分类3'].str.contains(pattern) == 0) & (df['统计月份'] == 201710)]
     # 数值缩放
     df['pv'] = df.apply(lambda x: x['pv'] if x['兴趣分类3'] not in ['购物', '门户', '地图'] else x['pv'] / 10, axis='columns')
     # 按年龄分类汇总统计
     with pd.ExcelWriter('../result/按年级分类汇总统计兴趣.xlsx') as xls:
-        for hobby in ['生活资讯', '娱乐休闲', '网络科技', '投资理财', '文体教育']:
-            for school in ['临港大学城', '闵行大学城', '松江大学城']:
+        for hobby in ['生活资讯', '娱乐休闲', '投资理财', '文体教育']:
+            for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
                 for age in range(1995, 1999):
                     app = df[(df['校区'] == school) & (df['出生年份'] == age) & (df['兴趣分类1'] == hobby)]
                     g_df = app.groupby(['兴趣分类3']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(10, columns='pv')
@@ -45,8 +45,8 @@ def main():
                     g_df.to_excel(xls, '{0}_10月_{1}_{2}_AGE_T5'.format(school, age, hobby), index=True)
     # 按性别分类汇总统计
     with pd.ExcelWriter('../result/按性别分类汇总统计兴趣.xlsx') as xls:
-        for hobby in ['生活资讯', '娱乐休闲', '网络科技', '投资理财', '文体教育']:
-            for school in ['临港大学城', '闵行大学城', '松江大学城']:
+        for hobby in ['生活资讯', '娱乐休闲', '投资理财', '文体教育']:
+            for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
                 for sex in ['男', '女']:
                     app = df[(df['校区'] == school) & (df['性别'] == sex) & (df['兴趣分类1'] == hobby)]
                     g_df = app.groupby(['兴趣分类3']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(10, columns='pv')
