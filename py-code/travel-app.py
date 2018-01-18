@@ -32,7 +32,7 @@ def main():
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
             for sex in ['男', '女']:
                 app = df[(df['校区'] == school) & (df['性别'] == sex)]
-                g_df = app.groupby(['app名称/类型']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                g_df = app.groupby(['app名称/类型']).agg({'出生年份' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='pv')
                 sum_stu = df_b[(df_b['性别'] == sex) & (df_b['校区'] == school)]['人数'].sum()
                 g_df['渗透率'] = g_df['uv'] / int(sum_stu)
                 g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
@@ -44,7 +44,7 @@ def main():
         for school in ['临港大学城', '杨浦大学城', '闵行大学城', '松江大学城']:
             for age in range(1995, 1999):
                 app = df[(df['校区'] == school) & (df['出生年份'] == age)]
-                g_df = app.groupby(['app名称/类型']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='uv')
+                g_df = app.groupby(['app名称/类型']).agg({'性别' : np.size, 'pv' : np.sum, 'uv' : np.sum}).nlargest(20, columns='pv')
                 sum_stu = df_b[(df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数'].sum()
                 g_df['渗透率'] = g_df['uv'] / int(sum_stu)
                 g_df['月均访问人次'] = g_df['pv'] / int(sum_stu)
