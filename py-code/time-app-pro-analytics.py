@@ -27,10 +27,10 @@ def main():
     df_a = df_a[(df_a['APP名称'].str.contains(pattern) == 0)]
     # 数值缩放
     df_a['PV'] = df_a.apply(lambda x: x['PV'] if x['APP名称'] not in ['百度贴吧'] else x['PV'] / 3, axis='columns')
-    for clock in range(24):
-        df = df_a[(df_a['CLOCK'] == clock)]
+    for clock in [5, 7, 9, 11, 13, 15, 17, 19, 21, 23]:
+        df = df_a[(df_a['CLOCK'] == clock) | (df_a['CLOCK'] == (clock + 1) % 24)]
         # 按年龄分类汇总统计
-        with pd.ExcelWriter('../result/clock-app/{0}点钟_按年级时段分类汇总统计APP.xlsx'.format(clock)) as xls:
+        with pd.ExcelWriter('../result/pro-clock-app/{0}_{1}点段_按年级时段分类汇总统计APP.xlsx'.format(clock, clock + 1)) as xls:
             for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
                 for age in range(1995, 1999):
                     app = df[(df['大学城'] == school) & (df['年龄'] == age)]
@@ -41,7 +41,7 @@ def main():
                     g_df['学生数'] = int(sum_stu)
                     g_df.to_excel(xls, '{0}_{1}_AGE_T_APP'.format(school, age), index=True)
         # 按性别分类汇总统计
-        with pd.ExcelWriter('../result/clock-app/{0}点钟_按性别时段分类汇总统计APP.xlsx'.format(clock)) as xls:
+        with pd.ExcelWriter('../result/pro-clock-app/{0}_{1}点段_按性别时段分类汇总统计APP.xlsx'.format(clock, clock + 1)) as xls:
             for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
                 for sex in ['男', '女']:
                     app = df[(df['大学城'] == school) & (df['性别'] == sex)]
