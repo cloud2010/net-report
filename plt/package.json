@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/cloud2010/net-report#readme",
   "dependencies": {
-    "echarts": "^3.8.5",
+    "echarts": "^4.0.2",
     "webpack": "^3.10.0"
   },
   "devDependencies": {
