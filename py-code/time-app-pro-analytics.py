@@ -31,23 +31,25 @@ def main():
         df = df_a[(df_a['CLOCK'] == clock) | (df_a['CLOCK'] == (clock + 1) % 24)]
         # 按年龄分类汇总统计
         with pd.ExcelWriter('../result/pro-clock-app/{0}_{1}点段_按年级时段分类汇总统计APP.xlsx'.format(clock, clock + 1)) as xls:
-            for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
+            for school in [u'宝山|临港|曹路', u'杨浦|闵行', u'松江']:
                 for age in range(1995, 1999):
-                    app = df[(df['大学城'] == school) & (df['年龄'] == age)]
+                    pattern_s = re.compile(school)
+                    app = df[(df['大学城'].str.contains(pattern_s) == 1) & (df['年龄'] == age)]
                     g_df = app.groupby(['APP名称']).agg({'CLOCK': np.size, '性别': np.size, 'PV': np.sum}).nlargest(20, columns='PV')
                     # 男生女生总和
-                    sum_stu = df_b[(df_b['出生年份'] == age) & (df_b['校区'] == school)]['人数'].sum()
+                    sum_stu = df_b[(df_b['出生年份'] == age) & (df_b['校区'].str.contains(pattern_s) == 1)]['人数'].sum()
                     g_df['时段平均访问次数'] = g_df['PV'] / int(sum_stu) / 30
                     g_df['学生数'] = int(sum_stu)
                     g_df.to_excel(xls, '{0}_{1}_AGE_T_APP'.format(school, age), index=True)
         # 按性别分类汇总统计
         with pd.ExcelWriter('../result/pro-clock-app/{0}_{1}点段_按性别时段分类汇总统计APP.xlsx'.format(clock, clock + 1)) as xls:
-            for school in ['临港大学城', '闵行大学城', '杨浦大学城', '松江大学城']:
+            for school in [u'宝山|临港|曹路', u'杨浦|闵行', u'松江']:
                 for sex in ['男', '女']:
-                    app = df[(df['大学城'] == school) & (df['性别'] == sex)]
+                    pattern_s = re.compile(school)
+                    app = df[(df['大学城'].str.contains(pattern_s) == 1) & (df['性别'] == sex)]
                     g_df = app.groupby(['APP名称']).agg({'CLOCK' : np.size, '年龄' : np.size, 'PV' : np.sum}).nlargest(20, columns='PV')
                     # 男生女生总和
-                    sum_stu = df_b[(df_b['性别'] == sex) & (df_b['校区'] == school)]['人数'].sum()
+                    sum_stu = df_b[(df_b['性别'] == sex) & (df_b['校区'].str.contains(pattern_s) == 1)]['人数'].sum()
                     g_df['时段平均访问次数'] = g_df['PV'] / int(sum_stu) / 30
                     g_df['学生数'] = int(sum_stu)
                     g_df.to_excel(xls, '{0}_{1}_SEX_T_APP'.format(school, sex), index=True)
