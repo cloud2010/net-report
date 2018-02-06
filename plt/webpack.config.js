@@ -34,7 +34,7 @@ module.exports = {
 
   },
   devServer: {
-    contentBase: './dist', // 本地服务器所加载的页面所在的目录
+    contentBase: path.resolve(__dirname, 'dist'), // 本地服务器所加载的页面所在的目录
     historyApiFallback: true, // 不跳转
     inline: true // 实时刷新
   },
@@ -43,7 +43,7 @@ module.exports = {
     new webpack.BannerPlugin('Author: capt.liu@foxmail.com'),
     new HtmlWebpackPlugin({
       // new一个这个插件的实例，并传入相关的参数
-      template: path.resolve(__dirname, '/src/view/index.tmpl.html')
+      template: path.resolve(__dirname, './src/view/index.tmpl.html')
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new ExtractTextPlugin('style.css') // 加载插件
