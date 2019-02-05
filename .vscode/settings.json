@@ -1,4 +1,5 @@
 {
     "code-runner.clearPreviousOutput": true,
-    "code-runner.runInTerminal": true
+    "code-runner.runInTerminal": true,
+    "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe"
 }
