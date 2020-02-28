@@ -1,5 +1,9 @@
 {
     "code-runner.clearPreviousOutput": true,
     "code-runner.runInTerminal": true,
-    "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe"
+    "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe",
+    "terminal.integrated.fontFamily": "'Cascadia Code PL'",
+    "editor.fontFamily": "'Cascadia Code PL'",
+    "editor.fontSize": 15,
+    "editor.fontLigatures": true
 }
