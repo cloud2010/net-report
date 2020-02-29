@@ -3,7 +3,7 @@
     "code-runner.runInTerminal": true,
     "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe",
     "terminal.integrated.fontFamily": "'Cascadia Code PL'",
-    "editor.fontFamily": "'Cascadia Code PL'",
-    "editor.fontSize": 15,
+    "editor.fontFamily": "'Cascadia Code PL', '冬青黑体简体中文'",
+    "editor.fontSize": 14,
     "editor.fontLigatures": true
 }
