@@ -1,4 +1,3 @@
-
 // const greeter = require('./greeter.js');
 import output from './greeter.js'
 

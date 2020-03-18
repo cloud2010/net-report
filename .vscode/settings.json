@@ -1,9 +1,17 @@
 {
-    "code-runner.clearPreviousOutput": true,
-    "code-runner.runInTerminal": true,
-    "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe",
-    "terminal.integrated.fontFamily": "'Cascadia Code PL'",
-    "editor.fontFamily": "'Cascadia Code PL', '冬青黑体简体中文'",
-    "editor.fontSize": 14,
-    "editor.fontLigatures": true
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.runInTerminal": true,
+  "python.pythonPath": "D:\\Dev\\Miniconda3\\envs\\dl\\python.exe",
+  "terminal.integrated.fontFamily": "'Cascadia Code PL'",
+  "editor.fontFamily": "'Cascadia Code PL', '冬青黑体简体中文'",
+  "editor.fontSize": 15,
+  "editor.lineHeight": 22,
+  "editor.fontLigatures": true,
+  "terminal.integrated.rendererType": "experimentalWebgl",
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "html", "vue", "javascriptreact"],
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "vetur.format.defaultFormatter.html": "prettier",
+  "vetur.format.defaultFormatter.js": "prettier"
 }

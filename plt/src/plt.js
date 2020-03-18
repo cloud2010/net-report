@@ -35,9 +35,11 @@ myChart.setOption({
     data: pltData
   },
   yAxis: {},
-  series: [{
-    name: 'UV值',
-    type: 'bar',
-    data: pltValue
-  }]
+  series: [
+    {
+      name: 'UV值',
+      type: 'bar',
+      data: pltValue
+    }
+  ]
 })
