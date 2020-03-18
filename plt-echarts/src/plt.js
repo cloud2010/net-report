@@ -18,11 +18,19 @@ import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/geo'
 import 'echarts/lib/component/visualMap'
 
+// 导出SVG
+const svgBtn = window.document.querySelector('#download')
+svgBtn.addEventListener('click', () => {
+  const content = document.querySelector('svg').outerHTML
+  const blob = new Blob([content], { type: 'xml/svg' })
+  svgBtn.href = URL.createObjectURL(blob)
+  svgBtn.download = option.title.text + '.svg'
+})
 // 基于准备好的dom，初始化echarts实例
 var divRender = document.querySelector('#main')
-divRender.setAttribute('style', 'width:1200px; height:800px;')
-// 基于准备好的dom，初始化echarts实例
-var myChart = echarts.init(divRender)
+divRender.setAttribute('style', 'width:1000px; height:800px;')
+// 基于准备好的dom，初始化echarts实例（渲染模式为SVG）
+var myChart = echarts.init(divRender, null, { renderer: 'svg' })
 // 绘制图表
 var yiban = [
   {
@@ -188,16 +196,18 @@ var option = {
   },
   toolbox: {
     feature: {
-      dataView: { readOnly: false },
-      restore: {},
+      // dataView: { readOnly: false },
+      // restore: {},
       saveAsImage: { pixelRatio: 3 } // 图片保存比例
     }
   },
   visualMap: {
     min: 0,
     max: 1000,
-    left: 26,
-    bottom: 40,
+    // left: 26,
+    // bottom: 40,
+    top: '55%',
+    left: '10%',
     showLabel: true,
     text: ['高', '低'],
     // pieces: [
@@ -230,6 +240,7 @@ var option = {
     //   }
     // ],
     show: true,
+    // orient: 'horizontal',
     inRange: {
       // color: ['#3B5077', '#031525'] // 蓝黑
       // color: ['#ffc0cb', '#800080'] // 红紫
