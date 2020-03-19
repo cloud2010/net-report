@@ -28,7 +28,7 @@ svgBtn.addEventListener('click', () => {
 })
 // 基于准备好的dom，初始化echarts实例
 var divRender = document.querySelector('#main')
-divRender.setAttribute('style', 'width:1000px; height:800px;')
+divRender.setAttribute('style', 'width:1000px; height:600px;')
 // 基于准备好的dom，初始化echarts实例（渲染模式为SVG）
 var myChart = echarts.init(divRender, null, { renderer: 'svg' })
 // 绘制图表
@@ -180,8 +180,11 @@ var option = {
     text: '易班各省市自治区注册人数',
     subtext: '来源：易班网',
     left: 'center',
+    backgroundColor: '#ffffff',
     textStyle: {
-      fontSize: 26
+      fontSize: 26,
+      fontWeight: 'bold',
+      fontFamily: 'Microsoft YaHei'
     }
   },
   tooltip: {
@@ -198,7 +201,11 @@ var option = {
     feature: {
       // dataView: { readOnly: false },
       // restore: {},
-      saveAsImage: { pixelRatio: 3 } // 图片保存比例
+      // 图片保存比例
+      saveAsImage: {
+        pixelRatio: 3,
+        backgroundColor: '#ffffff'
+      }
     }
   },
   visualMap: {
@@ -209,49 +216,50 @@ var option = {
     top: '55%',
     left: '10%',
     showLabel: true,
+    backgroundColor: '#ffffff',
     text: ['高', '低'],
-    // pieces: [
-    //   {
-    //     gt: 100,
-    //     label: '> 100 人',
-    //     color: '#7f1100'
-    //   },
-    //   {
-    //     gte: 10,
-    //     lte: 100,
-    //     label: '10 - 100 人',
-    //     color: '#ff5428'
-    //   },
-    //   {
-    //     gte: 1,
-    //     lt: 10,
-    //     label: '1 - 9 人',
-    //     color: '#ff8c71'
-    //   },
-    //   {
-    //     gt: 0,
-    //     lt: 1,
-    //     label: '其它',
-    //     color: '#ffd768'
-    //   },
-    //   {
-    //     value: 0,
-    //     color: '#dddddd'
-    //   }
-    // ],
-    show: true,
+    pieces: [
+      {
+        gt: 100,
+        label: '> 100 人',
+        color: '#00467F'
+      },
+      {
+        gte: 10,
+        lte: 100,
+        label: '10 - 100 人',
+        color: '#1488CC'
+      },
+      {
+        gte: 1,
+        lt: 10,
+        label: '1 - 9 人',
+        color: '#999999'
+      },
+      {
+        gt: 0,
+        lt: 1,
+        label: '其它',
+        color: '#666'
+      },
+      {
+        value: 0,
+        color: '#dddddd'
+      }
+    ],
+    show: true
     // orient: 'horizontal',
-    inRange: {
-      // color: ['#3B5077', '#031525'] // 蓝黑
-      // color: ['#ffc0cb', '#800080'] // 红紫
-      // color: ['#3C3B3F', '#605C3C'] // 黑绿
-      // color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
-      // color: ['#23074d', '#cc5333'] // 紫红
-      // color: ['#F6CED8', '#D90505'] //蓝红
-      // color: ['#00467F', '#A5CC82'] // 蓝绿
-      color: ['#ffffff', '#1488CC', '#00467F', '#2B32B2'] // 浅蓝
-      // color: ['#00467F', '#A5CC82'] // 蓝绿
-    }
+    // inRange: {
+    //   // color: ['', '#031525'] // 蓝黑
+    //   // color: ['#ffc0cb', '#800080'] // 红紫
+    //   // color: ['#3C3B3F', '#605C3C'] // 黑绿
+    //   // color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
+    //   // color: ['#23074d', '#cc5333'] // 紫红
+    //   // color: ['#F6CED8', '#D90505'] //蓝红
+    //   // color: ['#00467F', '#A5CC82'] // 蓝绿
+    //   color: ['#ffffff', '#1488CC', '#00467F', '#2B32B2'] // 浅蓝
+    //   // color: ['#00467F', '#A5CC82'] // 蓝绿
+    // }
   },
   geo: {
     name: '中国地图',
@@ -262,11 +270,12 @@ var option = {
       max: 2
     },
     zoom: 1.0,
-    top: 'auto',
+    top: '10%',
     label: {
       normal: {
         show: true,
         fontSize: '15',
+        fontFamily: 'Microsoft YaHei',
         color: '#000000'
       }
     },
@@ -276,7 +285,8 @@ var option = {
         shadowColor: 'rgba(0, 0, 0, 0.2)',
         borderWidth: 1,
         opacity: 0.85,
-        borderColor: '#666666'
+        borderColor: '#666666',
+        backgroundColor: '#ffffff'
       },
       emphasis: {
         areaColor: '#f2d5ad',
