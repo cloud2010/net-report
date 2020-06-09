@@ -191,7 +191,7 @@ var option = {
     trigger: 'item',
     showDelay: 0,
     transitionDuration: 0.2,
-    formatter: function(params) {
+    formatter: function (params) {
       var value = (params.value + '').split('.')
       value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
       return params.seriesName + '<br/>' + params.name + ': ' + value
